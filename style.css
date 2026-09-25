@@ -1,0 +1,242 @@
+/* =========================================================
+   Explorador de Endereços — estilos
+   As cores ficam em variáveis para facilitar mudanças.
+   ========================================================= */
+:root {
+  --tinta: #13203A;       /* texto principal e fundo do topo */
+  --papel: #FCFDFE;       /* fundo dos cartões */
+  --fundo: #F4F6F9;       /* fundo da página */
+  --suave: #44506A;       /* textos secundários */
+  --linha: #D9E0EA;       /* bordas */
+  --azul: #2F6FDB;        /* ações e destaques */
+  --azul-claro: #E8F0FD;
+  --ambar: #F0A23B;
+  --erro-fundo: #FFF1E0;
+  --erro-texto: #6B3A00;
+  --erro-borda: #B8650A;
+  --raio: 14px;
+  --fonte-titulo: "Space Grotesk", Arial, sans-serif;
+  --fonte-texto: "IBM Plex Sans", Arial, sans-serif;
+  --fonte-mono: "JetBrains Mono", "Courier New", monospace;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--fonte-texto);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--tinta);
+  background: var(--fundo);
+}
+
+/* ---------- Topo ---------- */
+.topo {
+  background: var(--tinta);
+  color: var(--fundo);
+  padding: 2.5rem 1.5rem 3rem;
+}
+.topo h1 {
+  font-family: var(--fonte-titulo);
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  line-height: 1.05;
+  margin: 0 auto 0.5rem;
+  max-width: 68rem;
+}
+.topo p {
+  margin: 0 auto;
+  max-width: 68rem;
+  color: #BFCBE0;
+}
+
+/* ---------- Layout dos painéis ---------- */
+.paineis {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  max-width: 68rem;
+  margin: -1.5rem auto 0;
+  padding: 0 1.5rem 2rem;
+}
+@media (min-width: 860px) {
+  .paineis { grid-template-columns: 1fr 1fr; align-items: start; }
+}
+
+.painel {
+  background: var(--papel);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.painel h2 {
+  font-family: var(--fonte-titulo);
+  font-size: 1.5rem;
+  margin: 0 0 0.75rem;
+}
+
+/* ---------- Formulários ---------- */
+label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+input, select, button {
+  font: inherit;
+  border-radius: 10px;
+}
+input, select {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border: 1.5px solid var(--linha);
+  background: #fff;
+  color: var(--tinta);
+}
+input:disabled, select:disabled { background: var(--fundo); color: var(--suave); }
+
+.form-cep { display: flex; flex-direction: column; gap: 0.5rem; }
+.linha-busca { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.linha-busca input {
+  flex: 1 1 10rem;
+  font-family: var(--fonte-mono);
+  font-size: 1.25rem;
+  letter-spacing: 0.06em;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  font-weight: 600;
+  background: var(--azul);
+  color: #fff;
+}
+button:hover:not(:disabled) { background: #245BBD; }
+button:disabled { opacity: 0.6; cursor: progress; }
+
+.botao-secundario {
+  background: var(--azul-claro);
+  color: var(--tinta);
+  justify-self: start;
+  margin-top: 0.5rem;
+}
+.botao-secundario:hover:not(:disabled) { background: #D5E3FA; }
+
+/* Foco visível para quem navega pelo teclado */
+input:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible {
+  outline: 3px solid var(--ambar);
+  outline-offset: 2px;
+}
+
+.dica { margin: 0; font-size: 0.875rem; color: var(--suave); }
+
+/* ---------- Mensagens de status ---------- */
+.status:empty { display: none; }
+.status {
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+}
+.status.carregando {
+  background: var(--azul-claro);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.status.carregando::before {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border: 2.5px solid var(--azul);
+  border-right-color: transparent;
+  animation: girar 0.8s linear infinite;
+}
+.status.erro {
+  background: var(--erro-fundo);
+  color: var(--erro-texto);
+  border-left: 5px solid var(--erro-borda);
+}
+@keyframes girar { to { transform: rotate(360deg); } }
+
+/* ---------- Cartão do endereço: uma etiqueta de envelope ---------- */
+.etiqueta {
+  margin-top: 1rem;
+  padding: 9px;
+  border-radius: var(--raio);
+  /* A borda listrada lembra os envelopes de correio aéreo */
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--azul) 0 14px,
+    var(--papel) 14px 24px,
+    var(--ambar) 24px 38px,
+    var(--papel) 38px 48px
+  );
+}
+.etiqueta-miolo {
+  background: var(--papel);
+  border-radius: 8px;
+  padding: 1.25rem 1.4rem;
+  display: grid;
+  gap: 0.15rem;
+}
+.etiqueta p { margin: 0; }
+.etiqueta-cep {
+  font-family: var(--fonte-mono);
+  font-weight: 700;
+  font-size: 1.6rem;
+  letter-spacing: 0.08em;
+  color: var(--azul);
+  margin-bottom: 0.4rem !important;
+}
+.etiqueta-rua { font-size: 1.2rem; font-weight: 600; }
+.etiqueta-cidade { font-weight: 500; }
+.etiqueta-extra {
+  display: flex;
+  gap: 2rem;
+  margin: 0.8rem 0 0;
+  padding-top: 0.8rem;
+  border-top: 1px dashed var(--linha);
+}
+.etiqueta-extra dt { font-size: 0.8rem; color: var(--suave); }
+.etiqueta-extra dd { margin: 0; font-family: var(--fonte-mono); font-weight: 500; }
+
+/* ---------- Lista de municípios ---------- */
+.contagem { margin: 0.75rem 0 0; font-size: 0.9rem; color: var(--suave); }
+.contagem:empty { display: none; }
+
+.lista-municipios {
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  max-height: 26rem;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 0 1rem;
+}
+.lista-municipios:empty { display: none; }
+.lista-municipios li {
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--linha);
+  font-size: 0.95rem;
+}
+
+/* ---------- Rodapé ---------- */
+.rodape {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 0 1.5rem 2.5rem;
+  font-size: 0.875rem;
+  color: var(--suave);
+}
+.rodape a { color: var(--azul); }
+
+/* Respeita quem prefere menos animação */
+@media (prefers-reduced-motion: reduce) {
+  .status.carregando::before { animation: none; border-right-color: var(--azul); }
+}
