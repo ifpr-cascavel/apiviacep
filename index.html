@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explorador de Endereços</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo">
+    <h1>Explorador de Endereços</h1>
+    <p>Consulte um CEP ou navegue pelos municípios de cada estado brasileiro.</p>
+  </header>
+
+  <main class="paineis">
+    <!-- PAINEL 1: busca de CEP (API ViaCEP) -->
+    <section class="painel" aria-labelledby="titulo-cep">
+      <h2 id="titulo-cep">Buscar por CEP</h2>
+
+      <form id="form-cep" class="form-cep" novalidate>
+        <label for="campo-cep">CEP</label>
+        <div class="linha-busca">
+          <input id="campo-cep" name="cep" type="text" inputmode="numeric"
+                 autocomplete="postal-code" placeholder="00000-000" maxlength="9">
+          <button id="botao-buscar" type="submit">Buscar endereço</button>
+        </div>
+        <p class="dica">Experimente 01001-000. Para ver o tratamento de erro, tente 99999-999.</p>
+      </form>
+
+      <!-- Mensagens de carregando e de erro aparecem aqui -->
+      <div id="status-cep" class="status" role="status" aria-live="polite"></div>
+
+      <!-- Cartão do resultado: começa escondido -->
+      <article id="resultado-cep" class="etiqueta" hidden>
+        <div class="etiqueta-miolo">
+          <p class="etiqueta-cep" id="res-cep"></p>
+          <p class="etiqueta-rua" id="res-logradouro"></p>
+          <p id="res-bairro"></p>
+          <p class="etiqueta-cidade" id="res-cidade"></p>
+          <dl class="etiqueta-extra">
+            <div><dt>DDD</dt><dd id="res-ddd"></dd></div>
+            <div><dt>Código IBGE</dt><dd id="res-ibge"></dd></div>
+          </dl>
+          <button type="button" id="botao-ver-cidades" class="botao-secundario">Ver municípios do estado</button>
+        </div>
+      </article>
+    </section>
+
+    <!-- PAINEL 2: estados e municípios (API do IBGE) -->
+    <section class="painel" aria-labelledby="titulo-ibge">
+      <h2 id="titulo-ibge">Estados e municípios</h2>
+
+      <label for="select-estado">Estado</label>
+      <select id="select-estado" disabled>
+        <option value="">Carregando estados…</option>
+      </select>
+
+      <label for="filtro-municipio">Filtrar municípios</label>
+      <input id="filtro-municipio" type="search" placeholder="Digite parte do nome" disabled>
+
+      <div id="status-ibge" class="status" role="status" aria-live="polite"></div>
+      <p id="contagem" class="contagem"></p>
+      <ul id="lista-municipios" class="lista-municipios"></ul>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    Dados: <a href="https://viacep.com.br" target="_blank" rel="noopener">ViaCEP</a> e
+    <a href="https://servicodados.ibge.gov.br/api/docs/localidades" target="_blank" rel="noopener">API de Localidades do IBGE</a>.
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
